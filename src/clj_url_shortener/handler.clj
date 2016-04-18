@@ -1,10 +1,19 @@
 (ns clj-url-shortener.handler
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
+            [ring.middleware.defaults :refer [wrap-defaults site-defaults]])
+  (:import 
+    org.apache.commons.validator.routines.UrlValidator))
+
+(def validator (UrlValidator. (into-array ["http" "https"]) (. UrlValidator ALLOW_LOCAL_URLS)))
 
 (defn shorten [params]
-  (str (:url params))
+  (let [url (:url params)]
+    (if (.isValid validator url)
+      (str "valid url: " url)
+      (str "invalid url: " url)
+      )
+    )
   )
 
 (defn expand [code]
