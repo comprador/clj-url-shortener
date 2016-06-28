@@ -1,6 +1,6 @@
 # clj-url-shortener
 
-FIXME
+This is a very simple URL shortener
 
 ## Prerequisites
 
